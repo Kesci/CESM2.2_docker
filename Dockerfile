@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-LABEL maintainer="Widget_An <anchunyu@heywhale.com>""
+LABEL maintainer="Widget_An <anchunyu@heywhale.com>"
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Shanghai
