@@ -30,6 +30,8 @@ ENV MPICC=mpicc
 ENV MPICXX=mpicxx
 ENV MPIFC=mpif90
 
+ENV OMPI_ALLOW_RUN_AS_ROOT=1
+ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 RUN cd /opt/cesm/Downloads \
     && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/hdf5-1.13.0.tar.gz \
     && tar -xvzf hdf5-1.13.0.tar.gz \
