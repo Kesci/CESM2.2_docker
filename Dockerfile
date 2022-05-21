@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:focal
 
 LABEL maintainer="Widget_An <anchunyu@heywhale.com>"
 
