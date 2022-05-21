@@ -7,42 +7,12 @@ ENV TZ=Asia/Shanghai
 
 RUN apt-get update && apt-get -y upgrade && apt-get autoremove && apt-get autoclean
 RUN apt-get install apt-utils
-RUN apt-get install file unzip git doxygen
+RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository ppa:gfd-dennou/ppa && apt-get install -y spml
+
+RUN apt-get install -y file unzip git doxygen
 RUN apt-get -y install build-essential gfortran cmake wget m4 csh zlib1g-dev perl libxml-libxml-perl libxml2 libxml2-dev libblas-dev liblapack-dev
 
 RUN cd /opt && mkdir cesm && cd cesm && mkdir Downloads && mkdir Library && mkdir output && mkdir input
-
-RUN cd /opt/cesm/Downloads \
-    && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/hdf5-1.13.0.tar.gz \
-    && tar -xvzf hdf5-1.13.0.tar.gz \
-    && cd hdf5-1.13.0/ \
-    && ./configure --prefix=/opt/cesm/Library --with-zlib --enable-hl --enable-fortran \
-    && make check -j \
-    && make install
-
-ENV HDF5=/opt/cesm/Library
-ENV LD_LIBRARY_PATH=/opt/cesm/Library/lib:$LD_LIBRARY_PATH
-ENV CPPFLAGS=-I/opt/cesm/Library/include 
-ENV LDFLAGS="-L/opt/cesm/Library/lib -llapack -lblas"
-
-RUN cd /opt/cesm/Downloads \
-    && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/netcdf-c-4.8.1.tar.gz \
-    && tar -xvzf netcdf-c-4.8.1.tar.gz \
-    && cd netcdf-c-4.8.1 \
-    && ./configure --prefix=/opt/cesm/Library --disable-dap \
-    && make check -j \
-    && make install
-
-RUN cd /opt/cesm/Downloads \
-    && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/netcdf-fortran-4.5.4.tar.gz \
-    && tar zxvf netcdf-fortran-4.5.4.tar.gz \
-    && cd netcdf-fortran-4.5.4 \
-    && ./configure --prefix=${NETCDF} --disable-fortran-type-check \
-    && make -j \
-    && make check -j \
-    && make install \
-    && cp /opt/cesm/Downloads/netcdf-fortran-4.5.4/fortran/netcdf.mod /opt/cesm/Library/include/ \
-    && cp /opt/cesm/Downloads/netcdf-fortran-4.5.4/fortran/netcdf.inc /opt/cesm/Library/include/
 
 RUN cd /opt/cesm/Downloads \
     && wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.1.tar.gz \
@@ -59,6 +29,39 @@ ENV MANPATH=${MPI_HOME}/share/man:$MANPATH
 ENV MPICC=mpicc
 ENV MPICXX=mpicxx
 ENV MPIFC=mpif90
+
+RUN cd /opt/cesm/Downloads \
+    && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/hdf5-1.13.0.tar.gz \
+    && tar -xvzf hdf5-1.13.0.tar.gz \
+    && cd hdf5-1.13.0/ \
+    && CC=mpicc CFLAGS=-w ./configure --prefix=/opt/cesm/Library --with-zlib --enable-hl --enable-fortran --enable-parallel \
+    && make check -j \
+    && make install
+
+ENV HDF5=/opt/cesm/Library
+ENV LD_LIBRARY_PATH=/opt/cesm/Library/lib:$LD_LIBRARY_PATH
+ENV CPPFLAGS=-I/opt/cesm/Library/include 
+ENV LDFLAGS="-L/opt/cesm/Library/lib -llapack -lblas"
+
+RUN cd /opt/cesm/Downloads \
+    && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/netcdf-c-4.8.1.tar.gz \
+    && tar -xvzf netcdf-c-4.8.1.tar.gz \
+    && cd netcdf-c-4.8.1 \
+    && ./configure --prefix=/opt/cesm/Library --disable-dap \
+    && make check -j \
+    && make install \
+    && libtool --finish /opt/cesm/Downloads/netcdf-c-4.8.1/plugins
+
+RUN cd /opt/cesm/Downloads \
+    && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/netcdf-fortran-4.5.4.tar.gz \
+    && tar zxvf netcdf-fortran-4.5.4.tar.gz \
+    && cd netcdf-fortran-4.5.4 \
+    && ./configure --prefix=${NETCDF} --disable-fortran-type-check \
+    && make -j \
+    && make check -j \
+    && make install \
+    && cp /opt/cesm/Downloads/netcdf-fortran-4.5.4/fortran/netcdf.mod /opt/cesm/Library/include/ \
+    && cp /opt/cesm/Downloads/netcdf-fortran-4.5.4/fortran/netcdf.inc /opt/cesm/Library/include/
 
 RUN cd /opt/cesm/Downloads \
     && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/pnetcdf-1.12.3.tar.gz \
@@ -101,3 +104,4 @@ RUN cd ~ \
     && cd .cime \
     && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/config_compilers.xml \
     && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/config_machines.xml
+
