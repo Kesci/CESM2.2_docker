@@ -6,6 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Shanghai
 
 RUN apt-get update && apt-get -y upgrade && apt-get autoremove && apt-get autoclean
+RUN apt-get install apt-utils
 RUN apt-get -y install build-essential gfortran cmake wget m4 unzip git csh zlib1g-dev perl libxml-libxml-perl libxml2 libxml2-dev libblas-dev liblapack-dev
 
 RUN cd /opt && mkdir cesm && cd cesm && mkdir Downloads && mkdir Library && mkdir output && mkdir input
