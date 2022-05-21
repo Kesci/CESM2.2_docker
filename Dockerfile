@@ -36,7 +36,7 @@ RUN cd /opt/cesm/Downloads \
     && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/hdf5-1.13.0.tar.gz \
     && tar -xvzf hdf5-1.13.0.tar.gz \
     && cd hdf5-1.13.0/ \
-    && CC=mpicc CFLAGS=-w ./configure --prefix=/opt/cesm/Library --with-zlib --enable-hl --enable-fortran --enable-parallel --oversubscribe \
+    && CC=mpicc CFLAGS=-w ./configure --prefix=/opt/cesm/Library --with-zlib --enable-hl --enable-fortran --enable-parallel \
     && make check -j \
     && make install
 
