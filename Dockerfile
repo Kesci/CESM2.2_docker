@@ -44,6 +44,10 @@ ENV HDF5=/opt/cesm/Library
 ENV LD_LIBRARY_PATH=/opt/cesm/Library/lib:$LD_LIBRARY_PATH
 ENV CPPFLAGS=-I/opt/cesm/Library/include 
 ENV LDFLAGS="-L/opt/cesm/Library/lib -llapack -lblas"
+ENV INCLUDE=/opt/cesm/Library/include:$Include
+ENV HDF5_LIB_DIR=/opt/cesm/Library/lib
+ENV HDF5DIR=/opt/cesm/Library/
+ENV HDF5_DIR=/opt/cesm/Library/
 
 RUN cd /opt/cesm/Downloads \
     && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/netcdf-c-4.8.1.tar.gz \
