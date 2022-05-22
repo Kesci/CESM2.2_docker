@@ -10,7 +10,7 @@ RUN apt-get install apt-utils
 RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository ppa:gfd-dennou/ppa && apt-get install -y spml
 
 RUN apt-get install -y file unzip git doxygen zip
-RUN apt-get -y install build-essential gfortran cmake wget m4 csh zlib1g-dev perl libxml-libxml-perl libxml2 libxml2-dev libblas-dev liblapack-dev
+RUN apt-get -y install build-essential gfortran cmake wget m4 csh zlib1g-dev perl libxml-libxml-perl libxml2 libxml2-dev libblas-dev liblapack-dev libtool libtool-bin
 
 RUN cd /opt && mkdir cesm && cd cesm && mkdir Downloads && mkdir Library && mkdir output && mkdir input
 
