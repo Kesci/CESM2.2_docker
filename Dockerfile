@@ -9,7 +9,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get autoremove && apt-get autocl
 RUN apt-get install apt-utils
 RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository ppa:gfd-dennou/ppa && apt-get install -y spml
 
-RUN apt-get install -y file unzip git doxygen
+RUN apt-get install -y file unzip git doxygen zip
 RUN apt-get -y install build-essential gfortran cmake wget m4 csh zlib1g-dev perl libxml-libxml-perl libxml2 libxml2-dev libblas-dev liblapack-dev
 
 RUN cd /opt && mkdir cesm && cd cesm && mkdir Downloads && mkdir Library && mkdir output && mkdir input
@@ -42,7 +42,7 @@ RUN cd /opt/cesm/Downloads \
 
 ENV HDF5=/opt/cesm/Library
 ENV LD_LIBRARY_PATH=/opt/cesm/Library/lib:$LD_LIBRARY_PATH
-ENV CPPFLAGS=-I/opt/cesm/Library/include 
+ENV CPPFLAGS="-I/opt/cesm/Library/include -I/opt/cesm/Library/.local/openmpi/include"
 ENV LDFLAGS="-L/opt/cesm/Library/lib -llapack -lblas"
 ENV INCLUDE=/opt/cesm/Library/include:$Include
 ENV HDF5_LIB_DIR=/opt/cesm/Library/lib
@@ -53,7 +53,7 @@ RUN cd /opt/cesm/Downloads \
     && wget https://cesm2-2-1254542291.cos.ap-nanjing.myqcloud.com/netcdf-c-4.8.1.tar.gz \
     && tar -xvzf netcdf-c-4.8.1.tar.gz \
     && cd netcdf-c-4.8.1 \
-    && ./configure --prefix=/opt/cesm/Library --disable-dap \
+    && ./configure --prefix=/opt/cesm/Library --disable-dap --includedir=/opt/cesm/Library/include  \
     && make check -j \
     && make install \
     && libtool --finish /opt/cesm/Downloads/netcdf-c-4.8.1/plugins
