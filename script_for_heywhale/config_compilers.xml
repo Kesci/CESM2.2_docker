@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config_compilers version="2.0">
+  <compiler COMPILER="gnu">
+    <CPPDEFS>
+      <append> -DFORTRANUNDERSCORE -DNO_R16 -DCPRGNU</append>
+    </CPPDEFS>
+    <NETCDF_PATH>$ENV{NETCDF}</NETCDF_PATH>
+    <SLIBS>
+      <append>-L/opt/cesm/Library/lib -lnetcdff -lnetcdf </append>
+    </SLIBS>
+  </compiler>
+</config_compilers>
