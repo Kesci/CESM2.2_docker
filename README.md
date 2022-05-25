@@ -11,3 +11,6 @@ cd /opt/cesm/my_cesm_sandbox/cime/scripts
 cd FHIST_f19
 ./case.setup
 ./case.build
+
+## 使用说明
+https://www.heywhale.com/mw-org/an_test/project/6289a0ee987d82166945606f
